@@ -27,7 +27,7 @@ d={}
 page_counter = 0
 try:
     while page_counter < 50 :
-        results = 'http://groups.google.com/groups?q='+str(domain_name)+'&hl=en&lr=&ie=UTF-8&start=' + repr(page_counter) + '&sa=N'
+        results = 'http://groups.google.com/groups?q='+str(domain_name)
         request = urllib2.Request(results)
         request.add_header('User-Agent','Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)')
         opener = urllib2.build_opener()                           
@@ -43,7 +43,7 @@ except IOError:
 page_counter_web=0
 try:
     while page_counter_web < 50 :
-        results_web = 'http://www.google.com/search?q=%40'+str(domain_name)+'&hl=en&lr=&ie=UTF-8&start=' + repr(page_counter_web) + '&sa=N'
+        results_web = 'http://www.google.com/search?q=%40'+str(domain_name)
         request_web = urllib2.Request(results_web)
         request_web.add_header('User-Agent','Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)')
         opener_web = urllib2.build_opener()                           
@@ -53,7 +53,6 @@ try:
             d[email_web]=1
             uniq_emails_web=d.keys()
         page_counter_web = page_counter_web +10
-        
 except IOError:
     print "Cannot connect to Google Web."+""
 for uniq_emails_web in d.keys():

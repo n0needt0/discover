@@ -5,9 +5,15 @@ none
 add domains
 yyy
 
+query CREATE TABLE documents (url TEXT, module TEXT)
+
 use recon/domains-contacts/pgp_search
 run
 use recon/domains-contacts/whois_pocs
+run
+use recon/domains-contacts/metacrawler
+run
+use recon/domains-hosts/brute_hosts
 run
 use recon/domains-hosts/bing_domain_api
 run
@@ -58,11 +64,15 @@ run
 
 use recon/netblocks-companies/whois_orgs
 run
+use recon/netblocks-hosts/reverse_resolve
+run
 use recon/netblocks-hosts/shodan_net
 run
 use recon/netblocks-ports/census_2012
 run
 use recon/netblocks-ports/censysio
+run
+use recon/hosts-hosts/censysio_ips
 run
 
 use recon/ports-hosts/migrate_ports
@@ -72,10 +82,47 @@ use recon/hosts-hosts/bing_ip
 run
 use recon/hosts-hosts/ssltools
 run
+use recon/hosts-hosts/resolve
+run
+use recon/hosts-hosts/reverse_resolve
+run
+use  recon/hosts-hosts/freegeoip
+run
+
 use recon/hosts-ports/shodan_ip
 run
 
+use recon/domains-vulnerabilities/ghdb
+run
+use recon/domains-vulnerabilities/punkspider
+run
+use recon/domains-vulnerabilities/xssed
+run 
+use recon/domains-vulnerabilities/xssposed
+run
+
+use recon/locations-pushpins/flickr
+run
+use recon/locations-pushpins/instagram
+run
+use recon/locations-pushpins/picasa
+run
+use recon/locations-pushpins/shodan
+run
+use recon/locations-pushpins/twitter
+run
+use recon/locations-pushpins/youtube
+run
+
+use  recon/hosts-hosts/freegeoip
+run
+
 back
+
+query delete from hosts where ip_address in (select distinct(ip_address) from hosts group by ip_address having count(*) > 100)
+
+query delete from hosts where ip_address = '' or ip_address IS NULL
+
 
 spool start /tmp/emails
 query SELECT DISTINCT email FROM contacts WHERE email LIKE "%@yyy" ORDER BY email
